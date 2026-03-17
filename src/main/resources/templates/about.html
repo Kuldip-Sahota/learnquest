@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About - LearnQuest</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navbar fragment -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<!-- Main content -->
+<div class="container mt-5">
+    <h1>About LearnQuest</h1>
+    <p class="lead">LearnQuest is a web application built to manage and explore courses. Students can view available courses and track their learning, while instructors can add new courses and organize content.</p>
+
+    <h3 class="mt-4">Features:</h3>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Browse courses with filtering and sorting</li>
+        <li class="list-group-item">Add new courses with name, category, and difficulty level</li>
+        <li class="list-group-item">Responsive design using Bootstrap 5</li>
+        <li class="list-group-item">Built with Spring Boot, Thymeleaf, and H2 database</li>
+    </ul>
+
+    <a class="btn btn-primary mt-4" th:href="@{/}">Back to Home</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
