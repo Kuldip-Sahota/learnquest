@@ -11,6 +11,10 @@
 <div class="container mt-5">
     <h1>Add a New Course</h1>
 
+    <div th:if="${param.error == 'notauthorized'}" class="alert alert-danger">
+        You are not authorized to access this page.
+    </div>
+
     <form th:action="@{/courses/add}" th:object="${course}" method="post">
         <div class="mb-3">
             <label for="name" class="form-label">Course Name</label>

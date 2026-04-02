@@ -4,34 +4,74 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<!-- Navbar Fragment -->
+
 <div th:fragment="navbar">
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
             <a class="navbar-brand" th:href="@{/}">LearnQuest</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
+
+                <!-- LEFT SIDE -->
                 <ul class="navbar-nav me-auto">
+
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/}">Home</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/courses}">Courses</a>
                     </li>
-                    <li class="nav-item">
+
+                    <li class="nav-item"
+                        th:if="${loggedInUser != null and (loggedInUser.role == 'TEACHER' or loggedInUser.role == 'ADMIN')}">
                         <a class="nav-link" th:href="@{/courses/add}">Add Course</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/about}">About</a>
                     </li>
+
+                    <li class="nav-item"
+                        th:if="${loggedInUser != null and loggedInUser.role == 'ADMIN'}">
+                        <a class="nav-link" th:href="@{/admin}">Admin</a>
+                    </li>
+
                 </ul>
+
+                <!-- RIGHT SIDE -->
+                <ul class="navbar-nav">
+
+                    <!-- Logged-in user -->
+                    <li class="nav-item" th:if="${loggedInUser != null}">
+                        <span class="nav-link fw-bold">
+                            👋 <span th:text="${loggedInUser.username}"></span>
+                        </span>
+                    </li>
+
+                    <li class="nav-item" th:if="${loggedInUser != null}">
+                        <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${loggedInUser == null}">
+                        <a class="nav-link" th:href="@{/login}">Login</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${loggedInUser == null}">
+                        <a class="nav-link" th:href="@{/register}">Register</a>
+                    </li>
+
+                </ul>
+
             </div>
         </div>
     </nav>
 </div>
-<!-- End Navbar Fragment -->
+
 </body>
 </html>

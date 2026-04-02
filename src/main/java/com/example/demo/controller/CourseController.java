@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Course;
+import com.example.demo.model.User;
 import com.example.demo.repository.CourseRepository;
+import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,11 @@ public class CourseController {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private UserService userService;
+
+    // ================= VIEW COURSES =================
 
     @GetMapping
     public String listCourses(
@@ -43,21 +50,60 @@ public class CourseController {
         model.addAttribute("difficultyLevel", difficultyLevel);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", courses.getTotalPages());
+
+        model.addAttribute("loggedInUser", userService.getLoggedInUser());
+
         return "courses";
     }
 
+    // ================= ADD COURSE (FORM) =================
+
     @GetMapping("/add")
     public String showForm(Model model) {
+
+        User user = userService.getLoggedInUser();
+
+        //  Not logged in → go to login
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        // Logged in but not teacher/admin
+        if (!userService.isTeacherOrAdmin()) {
+            return "redirect:/courses?error=notauthorized";
+        }
+
         model.addAttribute("course", new Course());
+        model.addAttribute("loggedInUser", user);
+
         return "course_form";
     }
 
+    // ================= ADD COURSE (SUBMIT) =================
+
     @PostMapping("/add")
     public String addCourse(@Valid @ModelAttribute("course") Course course,
-                            BindingResult result) {
+                            BindingResult result,
+                            Model model) {
+
+        User user = userService.getLoggedInUser();
+
+        //  Not logged in
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        //  Not authorized
+        if (!userService.isTeacherOrAdmin()) {
+            return "redirect:/courses?error=notauthorized";
+        }
+
+        // Validation errors
         if (result.hasErrors()) {
+            model.addAttribute("loggedInUser", user);
             return "course_form";
         }
+
         courseRepository.save(course);
         return "redirect:/courses";
     }
