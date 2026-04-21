@@ -1,0 +1,135 @@
+# LearnQuest – Final Deliverable (3)
+
+## Overview
+
+LearnQuest is a Spring Boot web application that allows users to register, log in, and interact with courses based on their role (Admin, Teacher, Student).
+
+The system supports:
+
+* User authentication (login/register)
+* Role-based access (Admin, Teacher, Student)
+* Course creation and filtering
+* Basic admin user management
+
+---
+
+## How to Run the Application
+
+### Requirements
+
+* Docker installed
+* Java (if running locally without Docker)
+* Maven (optional if using Docker)
+
+---
+
+### Run with Docker (Recommended)
+
+1. Open terminal in project folder
+
+2. Run:
+
+```
+docker-compose up --build
+```
+
+3. Wait until both containers start:
+
+* App → runs on port **8080**
+* MySQL → runs on port **3307**
+
+4. Open browser:
+
+```
+http://localhost:8080
+```
+
+---
+
+### Default Users
+
+(If database initializes correctly)
+
+* Admin
+
+  * username: admin
+  * password: password
+
+* Teacher
+
+  * username: teacher
+  * password: password
+
+* Student
+
+  * username: student
+  * password: password
+
+Or register and just login
+---
+
+## Features Working
+
+* User registration and login system
+* Role-based navigation (Admin, Teacher, Student)
+* Course listing with filtering and pagination
+* Teachers/Admins can add courses
+* Admin dashboard to manage users
+
+---
+
+## Known Issues / Limitations
+
+This project was intended to be completed as a group assignment, but due to lack of contribution from team members, several features are incomplete or not fully functional. Del 3 fell in exam week area so I mentally couldnt finish.
+
+### Issues:
+
+* **Enrollment system**
+
+  * Enroll button does not consistently appear
+  * Enrollment flow is not fully working
+
+* **File submission system**
+
+  * Upload UI exists
+  * Teachers cannot properly view student submissions
+
+* **Database initialization**
+
+  * Course data does not always load correctly at startup
+  * Some inserted values may appear incorrect
+
+* **Role-based UI inconsistencies**
+
+  * Some buttons (like enroll) may not show depending on session state
+
+---
+
+## Notes
+
+Despite the issues above, the core structure of the application is complete, including:
+
+* Backend architecture (controllers, services, repositories)
+* Database integration with MySQL
+* Docker containerization
+* Frontend UI using Thymeleaf and Bootstrap
+
+This project demonstrates understanding of:
+
+* Spring Boot MVC
+* Authentication handling
+* Database integration
+* Full-stack web application structure
+
+---
+
+## Author
+
+Kuldip Sahota
+
+## Contriubution
+
+Everything is just me (Kuldip), I wish I had atleast one another person helping me because it defiently wouldve ended up finishing then
+
+---
+

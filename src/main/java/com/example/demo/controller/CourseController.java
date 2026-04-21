@@ -25,7 +25,6 @@ public class CourseController {
     private UserService userService;
 
     // ================= VIEW COURSES =================
-
     @GetMapping
     public String listCourses(
             @RequestParam(defaultValue = "") String category,
@@ -34,7 +33,7 @@ public class CourseController {
             @RequestParam(defaultValue = "name") String sortBy,
             Model model
     ) {
-        // Validate sortBy
+
         if (!sortBy.equals("name") && !sortBy.equals("category") && !sortBy.equals("difficultyLevel")) {
             sortBy = "name";
         }
@@ -51,36 +50,35 @@ public class CourseController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", courses.getTotalPages());
 
+        // IMPORTANT FIX (this enables Enroll button)
         model.addAttribute("loggedInUser", userService.getLoggedInUser());
 
         return "courses";
     }
 
     // ================= ADD COURSE (FORM) =================
-
     @GetMapping("/add")
     public String showForm(Model model) {
 
         User user = userService.getLoggedInUser();
 
-        //  Not logged in → go to login
         if (user == null) {
             return "redirect:/login";
         }
 
-        // Logged in but not teacher/admin
         if (!userService.isTeacherOrAdmin()) {
             return "redirect:/courses?error=notauthorized";
         }
 
         model.addAttribute("course", new Course());
+
+        // ⭐ IMPORTANT FIX
         model.addAttribute("loggedInUser", user);
 
         return "course_form";
     }
 
     // ================= ADD COURSE (SUBMIT) =================
-
     @PostMapping("/add")
     public String addCourse(@Valid @ModelAttribute("course") Course course,
                             BindingResult result,
@@ -88,23 +86,22 @@ public class CourseController {
 
         User user = userService.getLoggedInUser();
 
-        //  Not logged in
         if (user == null) {
             return "redirect:/login";
         }
 
-        //  Not authorized
         if (!userService.isTeacherOrAdmin()) {
             return "redirect:/courses?error=notauthorized";
         }
 
-        // Validation errors
         if (result.hasErrors()) {
+            // so navbar + buttons still work on error page
             model.addAttribute("loggedInUser", user);
             return "course_form";
         }
 
         courseRepository.save(course);
+
         return "redirect:/courses";
     }
 }

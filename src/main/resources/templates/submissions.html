@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Submissions</title>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Student Submissions</h2>
+
+    <table class="table">
+        <tr>
+            <th>File Name</th>
+            <th>Student ID</th>
+            <th>Date</th>
+        </tr>
+
+        <tr th:each="s : ${submissions}">
+            <td th:text="${s.fileName}"></td>
+            <td th:text="${s.studentId}"></td>
+            <td th:text="${s.submittedAt}"></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

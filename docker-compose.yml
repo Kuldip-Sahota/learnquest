@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=qa
+    restart: on-failure
+
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: learnquest
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+
+    # 🔥 THIS MAKES SURE MYSQL IS READY BEFORE APP STARTS
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
